@@ -13,15 +13,22 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    // Creating event
-    socket.emit('newMessage', {
-        from: "lirom.ostrovsky@gmail.com",
-        text: "Hey olga",
-        createdAt: new Date().valueOf()
-    });
+    // // Creating event
+    // socket.emit('newMessage', {
+    //     from: "lirom.ostrovsky@gmail.com",
+    //     text: "Hey olga",
+    //     createdAt: new Date().valueOf()
+    // });
 
     socket.on('createMessage', (message) => {
         console.log(message);
+        // socket.emit - emits an event to a single connection
+        // io.emit - emits an event to all opened connections
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
     })
 
     // Listen to user disconnection
