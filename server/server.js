@@ -13,23 +13,31 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    // // Creating event
-    // socket.emit('newMessage', {
-    //     from: "lirom.ostrovsky@gmail.com",
-    //     text: "Hey olga",
-    //     createdAt: new Date().valueOf()
-    // });
+    // Send greeting message to the new joined user
+    socket.emit('newMessage', {
+        from: "Admin",
+        text: "Welcome to the chat app!",
+        createdAt: new Date().getTime()
+    });
+
+    // Send new user joined message to all connected users
+    socket.broadcast.emit('newMessage', {
+        from: "Admin",
+        text: "New user joined the chat room!",
+        createdAt: new Date().getTime()
+    });
 
     socket.on('createMessage', (message) => {
         console.log(message);
         // socket.emit - emits an event to a single connection
         // io.emit - emits an event to all opened connections
+        // socket.broadcast.emit - emits an event to all opened connection except of himself
         io.emit('newMessage', {
             from: message.from,
             text: message.text,
             createdAt: new Date().getTime()
-        });
-    })
+        });        
+    });
 
     // Listen to user disconnection
     socket.on('disconnect', () => {
