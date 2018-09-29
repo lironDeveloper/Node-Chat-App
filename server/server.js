@@ -21,12 +21,13 @@ io.on('connection', (socket) => {
     // Send new user joined message to all connected users
     socket.broadcast.emit('newMessage', generateMessage("Admin", "New user joined the chat room!"));
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log(message);
         // socket.emit - emits an event to a single connection
         // io.emit - emits an event to all opened connections
         // socket.broadcast.emit - emits an event to all opened connection except of himself
         io.emit('newMessage', generateMessage(message.from, message.text));        
+        callback("This is from the server");
     });
 
     // Listen to user disconnection
