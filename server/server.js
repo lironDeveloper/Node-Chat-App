@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
         // io.emit - emits an event to all opened connections
         // socket.broadcast.emit - emits an event to all opened connection except of himself
         io.emit('newMessage', generateMessage(message.from, message.text));        
-        callback("This is from the server");
+        callback();
     });
 
     socket.on('createLocationMessage', (coords) => {
