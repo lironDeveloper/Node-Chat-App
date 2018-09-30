@@ -25,16 +25,28 @@ function scrollToBottom() {
  }
 
 socket.on('connect', function() {
-    console.log("Connected to server")
+    var params = jQuery.deparam(window.location.search);
+
+    // Cutom event that sets up the room
+    socket.emit('join', params, function(err) {
+        if(err) {
+            alert(err);
+            window.location.href = '/';
+        } else {
+            console.log("No errors!")
+        }
+    });
 });
 
 socket.on('disconnect', function () {
     console.log('Disconnected from server');
+
+
 });
 
 socket.on('newMessage', function (message) {
 
-    var formattedTime = moment(message.createdAt).format('HH:MM');
+    var formattedTime = moment(message.createdAt).format('HH:mm');
     var template = jQuery('#message-template').html();
     var html = Mustache.render(template, {
         from: message.from,
@@ -46,9 +58,19 @@ socket.on('newMessage', function (message) {
     scrollToBottom();
 });
 
+socket.on('updateUserList', function(users) {
+    var ol = jQuery('<ol></ol>');
+
+    users.forEach(function (user) {
+        ol.append(jQuery('<li></li>').text(user));
+    });
+
+    jQuery('#users').html(ol);
+})
+
 socket.on('newLocationMessage', function(message) {
 
-    var formattedTime = moment(message.createdAt).format('HH:MM');
+    var formattedTime = moment(message.createdAt).format('HH:mm');
     var template = jQuery('#message-location-template').html();
     var html = Mustache.render(template, {
         from: message.from,
@@ -81,10 +103,10 @@ var locationButton = jQuery('#send-location');
 
 locationButton.on('click', function() {
     if(!navigator.geolocation) {
-        return alert("Geolocation not supported by your broseer")
+        return alert("Your browser doesn't support this feature");
     }
 
-    locationButton.attr('disabled', 'disabled').text("Sending location...");
+    locationButton.attr('disabled', 'disabled').text("Sending location");
 
     navigator.geolocation.getCurrentPosition(function(position) {
         locationButton.removeAttr('disabled').text("Send location");
@@ -94,6 +116,6 @@ locationButton.on('click', function() {
         })
     }, function() {
         locationButton.removeAttr('disabled').text("Send location");        
-        alert("Unable to fetch location")
+        alert("The app can not fetch your location")
     })
 })
