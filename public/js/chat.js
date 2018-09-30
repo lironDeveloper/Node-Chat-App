@@ -91,8 +91,8 @@ jQuery('#message-form').on('submit', function(e) {
 
     // jQuery('[name=message]') - selecting all objects
     // that their name attribute is message
+    
     socket.emit('createMessage', {
-        from: 'User',
         text: messageTextbox.val()
     }, function() {
         messageTextbox.val('')
