@@ -29,16 +29,20 @@ jQuery('#join-room-button').on('click', function(e) {
         decidedRoom = roomNameByDropDown;
     }
 
-    $.get("/users/unique", { 
-        name: name,
-        room: decidedRoom
-    }, function(isUnique) {
-        if(!isUnique) {
-            alert(`There is a user in this chat room named ${name} already, try another nick name`);
-        } else {
-            window.location.href = `/chat.html?name=${name}&room=${decidedRoom}`;
-        }
-    }).fail(function(err) {
-        alert(err);
-    });
+    if(decidedRoom && name) {
+        $.get("/users/unique", { 
+            name: name,
+            room: decidedRoom
+        }, function(isUnique) {
+            if(!isUnique) {
+                alert(`There is a user in this chat room named ${name} already, try another nick name`);
+            } else {
+                window.location.href = `/chat.html?name=${name}&room=${decidedRoom}`;
+            }
+        }).fail(function(err) {
+            alert(err);
+        });
+    } else {
+        alert("Select a room and display name");
+    }
 });
