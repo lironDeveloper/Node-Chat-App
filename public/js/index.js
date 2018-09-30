@@ -1,12 +1,12 @@
-$.ajax({
-    url: "http://localhost:3000/rooms"
-}).done(function(rooms) {
+$.get("/rooms", function(rooms) {
     var dropDown = jQuery('#live-rooms');
     
     // For every room, add it as an option
     rooms.forEach(function(room) {
         dropDown.append(`<option>${room}</option>`);
     });
+}).fail(function(err) {
+    alert(err);
 });
 
 jQuery('#join-room-button').on('click', function(e) {
