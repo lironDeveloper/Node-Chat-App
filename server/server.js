@@ -2,6 +2,7 @@ var path = require('path');
 const http = require('http');
 var express = require('express');
 var socketIO = require('socket.io');
+const _ = require('lodash');
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation');
@@ -85,6 +86,24 @@ io.on('connection', (socket) => {
 
 // Middleware to serve public directory
 app.use(express.static(publicPath));
+
+// Getting all current live rooms
+app.get('/rooms', (req, res) => {
+    res.send(users.getAllRooms());
+});
+
+// Checking the uniqueness of the display name in chat room
+app.get('/users/unique', (req, res) => {
+    var currDisplayName = req.query.name;
+    var currDecidedRoom = req.query.room;
+
+    console.log(currDisplayName, currDecidedRoom);
+    if(_.includes(users.getUserList(currDecidedRoom), currDisplayName)){
+        res.send(false);
+    } else {
+        res.send(true);
+    }
+});
 
 server.listen(port, () => {
     console.log(`Server is up on port ${port}`);

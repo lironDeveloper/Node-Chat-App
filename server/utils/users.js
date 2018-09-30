@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class Users {
     constructor() {
         this.users = [];
@@ -28,6 +30,16 @@ class Users {
         var namesArr = usersByRoom.map((user) =>user.name);
 
         return namesArr;
+    }
+
+    getAllRooms() {
+        var allRoomNames = [];
+
+        this.users.map((user) => {
+            allRoomNames.push(user.room);
+        });
+
+        return (_.uniq(allRoomNames));
     }
 }
 

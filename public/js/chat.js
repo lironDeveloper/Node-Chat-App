@@ -91,7 +91,7 @@ jQuery('#message-form').on('submit', function(e) {
 
     // jQuery('[name=message]') - selecting all objects
     // that their name attribute is message
-    
+
     socket.emit('createMessage', {
         text: messageTextbox.val()
     }, function() {
@@ -118,4 +118,4 @@ locationButton.on('click', function() {
         locationButton.removeAttr('disabled').text("Send location");        
         alert("The app can not fetch your location")
     })
-})
+});

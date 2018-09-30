@@ -10,7 +10,7 @@
 
     <body class="centered-form">
         <div class="centered-form__form">
-            <form action="/chat.html">
+            <form>
                 <div class="form-field">
                     <h3>Join room</h3>
                 </div>
@@ -23,9 +23,17 @@
                     <input type="text" name="room" autocomplete="off">
                 </div>
                 <div class="form-field">
-                    <button>Join room</button>
+                    <label>Join live room</label>
+                    <select id="live-rooms">
+                        <option value="">Live rooms:</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <button id="join-room-button">Join room</button>
                 </div>
             </form>            
         </div>
+        <script src="/js/libs/jquery-3.3.1.min.js"></script>
+        <script src="/js/index.js"></script>
     </body>
 </html>
