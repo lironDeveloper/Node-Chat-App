@@ -119,3 +119,8 @@ locationButton.on('click', function() {
         alert("The app can not fetch your location")
     })
 });
+
+jQuery('#leave-chat').on('click', function() {
+    socket.emit('disconnect');
+    window.location.href = '/';
+});

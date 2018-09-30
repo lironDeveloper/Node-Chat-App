@@ -97,7 +97,6 @@ app.get('/users/unique', (req, res) => {
     var currDisplayName = req.query.name;
     var currDecidedRoom = req.query.room;
 
-    console.log(currDisplayName, currDecidedRoom);
     if(_.includes(users.getUserList(currDecidedRoom), currDisplayName)){
         res.send(false);
     } else {
